@@ -1,0 +1,7 @@
+# Ignore result images and RL models
+rl_models/
+*.zip
+*.csv
+*.joblib
+ppo_phoenix_tensorboard_*/
+__pycache__/

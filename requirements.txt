@@ -1,0 +1,17 @@
+# --- Core numerics & data ---
+numpy>=1.26,<2.0
+scipy>=1.11,<2.0
+pandas>=2.2,<3.0
+matplotlib>=3.8,<4.0
+joblib>=1.4,<2.0
+
+# --- Machine-learning stack (classical) ---
+scikit-learn>=1.4,<2.0
+
+# --- RL/Simulation stack ---
+gymnasium[classic-control]>=0.29,<1.0
+stable-baselines3[extra]>=2.3,<3.0     # installs sb3 + common extras (tensorboard, etc.)
+torch>=2.1,<3.0                        # SB3 requires PyTorch
+
+# --- Utilities ---
+tqdm>=4.66,<5.0                        # progress bars used by SB3 ‘progress_bar=True’

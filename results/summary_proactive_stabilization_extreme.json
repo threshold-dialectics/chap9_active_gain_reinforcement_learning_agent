@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "env_level": "extreme",
+    "sim_steps": 1000,
+    "rl_training_timesteps": 500000,
+    "code_commit": "713b6fa",
+    "ml_classifier": {
+      "macro_F1": 0.82,
+      "overall_acc": 0.85
+    }
+  },
+  "conditions": {
+    "RL_extreme": {
+      "n_runs": 30,
+      "collapse_rate": [
+        1.0,
+        0.0
+      ],
+      "avg_time_to_p4": [
+        1000.0,
+        0.0
+      ],
+      "avg_duration_stable_p4": [
+        null,
+        0.0
+      ],
+      "avg_total_fcrit_injected": 0.021987497203199168,
+      "avg_lever_cost": 4.990482807159424,
+      "phase_occupancy": [
+        0.0,
+        0.19,
+        0.358,
+        0.442,
+        0.009
+      ],
+      "fcrit_auc": 25932.6484375,
+      "sm_auc": -1713.1519775390625,
+      "sm_slope": 0.004478066230480255,
+      "diagnostics": {
+        "SpeedIndex": [
+          0.4241214080813371,
+          0.0918881627839466,
+          0.779410735766093
+        ],
+        "CoupleIndex": [
+          0.1570074272239054,
+          0.46339113567401996,
+          0.8813863078753154
+        ],
+        "rhoE": [
+          1.746994167881932,
+          2.403302231632408,
+          9.762264553705851
+        ]
+      },
+      "rl_episode_return_mean": -1057.9016742025328,
+      "rl_steps_in_P4_mean": 0.03333333333333333
+    }
+  },
+  "data_uri": "results/curves.parquet",
+  "raw_log_uri": "results/run_logs.csv"
+}

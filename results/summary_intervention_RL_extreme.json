@@ -1,0 +1,209 @@
+{
+  "meta": {
+    "env_level": "extreme",
+    "sim_steps": 1000,
+    "rl_training_timesteps": 500000,
+    "code_commit": "1b04189",
+    "ml_classifier": {
+      "macro_F1": 0.82,
+      "overall_acc": 0.85
+    }
+  },
+  "conditions": {
+    "A_NoIntervention": {
+      "n_runs": 30,
+      "collapse_rate": [
+        1.0,
+        0.0
+      ],
+      "avg_time_to_p4": [
+        1000.0,
+        0.0
+      ],
+      "avg_duration_stable_p4": [
+        null,
+        0.0
+      ],
+      "avg_total_fcrit_injected": 0.0,
+      "avg_lever_cost": 5.8609700202941895,
+      "phase_occupancy": [
+        0.0,
+        0.021,
+        0.042,
+        0.936,
+        0.001
+      ],
+      "fcrit_auc": 25537.81640625,
+      "sm_auc": -1274.23193359375,
+      "sm_slope": 0.005516672012218762,
+      "diagnostics": {
+        "SpeedIndex": [
+          0.06810857538623429,
+          0.19066290316924894,
+          0.7950312693913778
+        ],
+        "CoupleIndex": [
+          -0.11582500476591019,
+          0.7384135695958584,
+          1.0128762662410735
+        ],
+        "rhoE": [
+          0.40642287454957565,
+          1.2249554537870624,
+          10.165764220555623
+        ]
+      }
+    },
+    "B_TDInformed": {
+      "n_runs": 30,
+      "collapse_rate": [
+        1.0,
+        0.0
+      ],
+      "avg_time_to_p4": [
+        1000.0,
+        0.0
+      ],
+      "avg_duration_stable_p4": [
+        null,
+        0.0
+      ],
+      "avg_total_fcrit_injected": 0.0,
+      "avg_lever_cost": 5.96580171585083,
+      "phase_occupancy": [
+        0.0,
+        0.021,
+        0.042,
+        0.937,
+        0.001
+      ],
+      "fcrit_auc": 25552.583984375,
+      "sm_auc": -1304.66748046875,
+      "sm_slope": 0.005029039923478626,
+      "diagnostics": {
+        "SpeedIndex": [
+          0.0679497259386084,
+          0.19061778960389503,
+          0.7960021416346232
+        ],
+        "CoupleIndex": [
+          -0.12246466041425225,
+          0.7377647459506153,
+          1.0134643038113913
+        ],
+        "rhoE": [
+          0.4044813030190238,
+          1.1898039616286782,
+          9.63626314798991
+        ]
+      },
+      "p_vs_NoIntervention": {
+        "collapse_rate.p_vs_NoIntervention": null,
+        "avg_time_to_p4.p_vs_NoIntervention": null,
+        "avg_total_fcrit_injected.p_vs_NoIntervention": null
+      }
+    },
+    "C_NaiveFcritBoost": {
+      "n_runs": 30,
+      "collapse_rate": [
+        1.0,
+        0.0
+      ],
+      "avg_time_to_p4": [
+        1000.0,
+        0.0
+      ],
+      "avg_duration_stable_p4": [
+        null,
+        0.0
+      ],
+      "avg_total_fcrit_injected": 415.0,
+      "avg_lever_cost": 5.768632888793945,
+      "phase_occupancy": [
+        0.0,
+        0.02,
+        0.042,
+        0.937,
+        0.001
+      ],
+      "fcrit_auc": 26253.509765625,
+      "sm_auc": -1235.5498046875,
+      "sm_slope": 0.00601613088065226,
+      "diagnostics": {
+        "SpeedIndex": [
+          0.06823202766872857,
+          0.18303172188940844,
+          0.7797393500804901
+        ],
+        "CoupleIndex": [
+          0.14542498949606214,
+          0.31429004298704466,
+          1.0213204979896546
+        ],
+        "rhoE": [
+          0.40918052823967416,
+          1.267311702192657,
+          10.670028320948283
+        ]
+      },
+      "p_vs_NoIntervention": {
+        "collapse_rate.p_vs_NoIntervention": null,
+        "avg_time_to_p4.p_vs_NoIntervention": null,
+        "avg_total_fcrit_injected.p_vs_NoIntervention": 0.0
+      }
+    },
+    "D_RLAgentPolicy": {
+      "n_runs": 30,
+      "collapse_rate": [
+        1.0,
+        0.0
+      ],
+      "avg_time_to_p4": [
+        1000.0,
+        0.0
+      ],
+      "avg_duration_stable_p4": [
+        null,
+        0.0
+      ],
+      "avg_total_fcrit_injected": 0.028117581093065346,
+      "avg_lever_cost": 4.668237686157227,
+      "phase_occupancy": [
+        0.0,
+        0.259,
+        0.476,
+        0.252,
+        0.012
+      ],
+      "fcrit_auc": 25685.3515625,
+      "sm_auc": -1180.815673828125,
+      "sm_slope": 0.006756307476732348,
+      "diagnostics": {
+        "SpeedIndex": [
+          0.560530206032994,
+          0.05685248748891833,
+          0.7746725678443909
+        ],
+        "CoupleIndex": [
+          0.06601983242964245,
+          0.45082819138391333,
+          0.8333064238230388
+        ],
+        "rhoE": [
+          2.255503158046599,
+          2.7556291050024577,
+          9.482812960942587
+        ]
+      },
+      "rl_episode_return_mean": -68.78308594853098,
+      "rl_steps_in_P4_mean": 0.06666666666666667,
+      "p_vs_NoIntervention": {
+        "collapse_rate.p_vs_NoIntervention": null,
+        "avg_time_to_p4.p_vs_NoIntervention": null,
+        "avg_total_fcrit_injected.p_vs_NoIntervention": 3.2678473224278124e-09
+      }
+    }
+  },
+  "data_uri": "results/curves.parquet",
+  "raw_log_uri": "results/run_logs.csv"
+}

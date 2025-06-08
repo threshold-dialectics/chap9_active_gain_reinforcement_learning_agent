@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "env_level": "default",
+    "sim_steps": 600,
+    "rl_training_timesteps": 500000,
+    "code_commit": "713b6fa",
+    "ml_classifier": {
+      "macro_F1": 0.82,
+      "overall_acc": 0.85
+    }
+  },
+  "conditions": {
+    "RL_default": {
+      "n_runs": 30,
+      "collapse_rate": [
+        1.0,
+        0.0
+      ],
+      "avg_time_to_p4": [
+        600.0,
+        0.0
+      ],
+      "avg_duration_stable_p4": [
+        null,
+        0.0
+      ],
+      "avg_total_fcrit_injected": 0.0,
+      "avg_lever_cost": 5.735098361968994,
+      "phase_occupancy": [
+        0.0,
+        0.035,
+        0.069,
+        0.811,
+        0.085
+      ],
+      "fcrit_auc": 58470.91796875,
+      "sm_auc": 451.7357482910156,
+      "sm_slope": -0.003926162644865967,
+      "diagnostics": {
+        "SpeedIndex": [
+          0.05336730413061474,
+          0.13957836881143384,
+          1.0361100633939107
+        ],
+        "CoupleIndex": [
+          0.07949258017347943,
+          0.5551582319921429,
+          1.0212705214818318
+        ],
+        "rhoE": [
+          0.7600206523233248,
+          1.5506442543745707,
+          8.556465768814087
+        ]
+      },
+      "rl_episode_return_mean": -502.61606157390673,
+      "rl_steps_in_P4_mean": 50.06666666666667
+    }
+  },
+  "data_uri": "results/curves.parquet",
+  "raw_log_uri": "results/run_logs.csv"
+}
