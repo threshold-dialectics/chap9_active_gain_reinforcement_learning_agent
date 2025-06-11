@@ -160,7 +160,7 @@ class EnvironmentConfig:
 
 # CHOOSE ENVIRONMENT CONFIGURATION FOR THE STUDY
 # Options: "easy_debug", "challenging", "extreme", "default"
-SELECTED_ENV_LEVEL = "easy_debug" # CHANGED TO "challenging" for testing new rewards
+SELECTED_ENV_LEVEL = "default" # CHANGED TO "challenging" for testing new rewards
 CURRENT_ENV_CONFIG = EnvironmentConfig(level=SELECTED_ENV_LEVEL)
 
 # Directories for saving outputs
@@ -463,7 +463,7 @@ def write_trimmed_summary_markdown(summary_dict: dict, path: str) -> None:
     """Write a human-readable Markdown summary built from generate_trimmed_summary."""
     trimmed = generate_trimmed_summary(summary_dict)
     os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
-    with open(path, "w") as f:
+    with open(path, "w", encoding='utf-8') as f:
         f.write("# Proactive-Stabilization Study (trimmed)\n\n")
         meta = trimmed.get("meta", {})
         f.write(f"**Environment**: {meta.get('env_level')}\n\n")
@@ -944,6 +944,7 @@ def run_intervention_simulation(intervention_type, run_id_offset=0, ml_model_pip
     print(f"\n--- Running Simulation: Intervention Type: {intervention_type} (Env: {env_config_to_use.level}) ---")
     condition_start_time = time.perf_counter()
     all_run_histories_condition = []
+
     if intervention_type == 'rl_agent' and trained_rl_model is None:
         print("ERROR: RL Agent selected, but no trained_rl_model provided."); return [], []
     run_durations = []
@@ -951,46 +952,41 @@ def run_intervention_simulation(intervention_type, run_id_offset=0, ml_model_pip
         run_start_time = time.perf_counter()
         current_run_id = run_id_offset + i
         if intervention_type == 'rl_agent':
+            # Initialize the environment for the current run
             eval_env = env_class(run_id_offset=run_id_offset + 100000 + i, env_config=env_config_to_use)
             obs, _ = eval_env.reset()
-            current_run_history = {key: list(val_list) for key, val_list in eval_env.system.history.items()}
-            current_run_history['ml_phase_pred'] = []
-            stream_diag_calc = DiagnosticsCalculatorIntervention(entropy_baseline=GLOBAL_ENTROPY_BASELINE, env_config=env_config_to_use)
-            alg_phase_pred = 4
+            
             episode_return_total = 0.0
             max_p4_consec = 0
+            
+            # Run the episode until done
             for step_in_episode in range(env_config_to_use.sim_steps):
                 action_int, _ = trained_rl_model.predict(obs, deterministic=True)
                 obs, reward, terminated, truncated, info = eval_env.step(action_int)
+                
                 episode_return_total += reward
                 if eval_env.steps_in_phase_4_consecutive > max_p4_consec:
                     max_p4_consec = eval_env.steps_in_phase_4_consecutive
-                current_sample = {key_req: (eval_env.system.history[key_req][-1] if key_req in eval_env.system.history and eval_env.system.history[key_req] else getattr(eval_env.system, key_req, 0)) for key_req in REQUIRED_SERIES_FOR_DIAG_CALC}
-                current_sample["run_id"] = current_run_id
-                stream_diag_calc.push_sample(current_sample)
-                if step_in_episode >= BURN_IN_PERIOD + FEATURE_WINDOW_SIZE - 1 and ml_model_pipeline_for_heuristics is not None:
-                    latest_features_values = stream_diag_calc.latest_features(FEATURE_WINDOW_SIZE)
-                    if not latest_features_values.empty:
-                        try:
-                            alg_phase_pred = ml_model_pipeline_for_heuristics.predict(latest_features_values)[0]
-                        except Exception:
-                            alg_phase_pred = 4
-                current_run_history['ml_phase_pred'].append(alg_phase_pred)
-                for key_hist in list(current_run_history.keys()):
-                    if key_hist in eval_env.system.history and eval_env.system.history[key_hist]:
-                        if len(eval_env.system.history[key_hist]) > len(current_run_history[key_hist]):
-                            current_run_history[key_hist].append(eval_env.system.history[key_hist][-1])
-                        elif len(eval_env.system.history[key_hist]) == len(current_run_history[key_hist]) and current_run_history[key_hist]:
-                            current_run_history[key_hist][-1] = eval_env.system.history[key_hist][-1]
+                    
                 if terminated or truncated:
                     break
-            current_run_history['episode_return'] = episode_return_total
-            current_run_history['max_steps_in_P4_consecutive'] = max_p4_consec
+                    
+            # After the episode, grab the completed history directly from the system object.
+            # This is the robust way to do it, avoiding manual syncing.
+            final_run_history = eval_env.system.history
+            
+            # Add the episode-level metrics to this history dictionary
+            final_run_history['episode_return'] = episode_return_total
+            final_run_history['max_steps_in_P4_consecutive'] = max_p4_consec
+
+            # (Optional but good practice) Calculate diagnostics here if needed for this run
             final_diag_calc = DiagnosticsCalculatorIntervention(entropy_baseline=GLOBAL_ENTROPY_BASELINE, env_config=env_config_to_use)
-            final_diag_calc.calculate_diagnostics_for_run(current_run_history)
+            final_diag_calc.calculate_diagnostics_for_run(final_run_history)
             final_diag_calc.finalize_rhoE_and_baseline(recompute_baseline=False, quiet=True)
-            current_run_history['diagnostics'] = final_diag_calc.diagnostics_list[0] if final_diag_calc.diagnostics_list else {}
-            all_run_histories_condition.append(current_run_history)
+            final_run_history['diagnostics'] = final_diag_calc.diagnostics_list[0] if final_diag_calc.diagnostics_list else {}
+
+            # Append the clean, complete history to the list for this condition
+            all_run_histories_condition.append(final_run_history)
             eval_env.close()
         else:
             system = TDSystemIntervention(run_id=current_run_id, intervention_type=intervention_type, env_config=env_config_to_use)

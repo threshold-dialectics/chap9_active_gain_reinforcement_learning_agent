@@ -28,8 +28,8 @@ from phoenix_loop_intervention_RL import (
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--timesteps", type=int, default=500000)
-    parser.add_argument("--study_id", type=str, default="easy_proactive_avoidance")
-    parser.add_argument("--env_level", type=str, default="easy_debug")
+    parser.add_argument("--study_id", type=str, default="extreme_proactive_avoidance")
+    parser.add_argument("--env_level", type=str, default="extreme") #default, easy_debug, challenging, extreme
     parser.add_argument("--force_retrain", action='store_true', help="Force retraining even if model exists.")
     args = parser.parse_args()
 
