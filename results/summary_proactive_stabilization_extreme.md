@@ -8,9 +8,9 @@
 - Time to P4: 1000.0 ± 0.0 steps
 - Stable P4 duration: nan ± 0.0 steps
 - Total fcrit injected: 0.03
-- Lever cost: 5.05
-- Phase occupancy: [0.0, 0.174, 0.315, 0.502, 0.009]
-- SpeedIndex: 0.38 ± 0.10
-- CoupleIndex: 0.08 ± 0.50
-- rhoE: 1.59 ± 2.18
+- Lever cost: 4.46
+- Phase occupancy: [0.0, 0.261, 0.474, 0.253, 0.012]
+- SpeedIndex: 0.56 ± 0.06
+- CoupleIndex: 0.16 ± 0.41
+- rhoE: 2.24 ± 2.78
 

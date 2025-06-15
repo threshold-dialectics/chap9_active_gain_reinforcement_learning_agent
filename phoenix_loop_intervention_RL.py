@@ -7,6 +7,17 @@ from scipy.stats import sem, ttest_ind, linregress
 from collections import deque
 from itertools import groupby
 import matplotlib.pyplot as plt
+
+# Set consistent, slightly larger font sizes for readability
+plt.rcParams.update({
+    'font.size': 16,
+    'axes.titlesize': 16,
+    'axes.labelsize': 16,
+    'xtick.labelsize': 16,
+    'ytick.labelsize': 16,
+    'legend.fontsize': 16,
+    'figure.titlesize': 16,
+})
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
@@ -160,7 +171,7 @@ class EnvironmentConfig:
 
 # CHOOSE ENVIRONMENT CONFIGURATION FOR THE STUDY
 # Options: "easy_debug", "challenging", "extreme", "default"
-SELECTED_ENV_LEVEL = "default" # CHANGED TO "challenging" for testing new rewards
+SELECTED_ENV_LEVEL = "extreme" 
 CURRENT_ENV_CONFIG = EnvironmentConfig(level=SELECTED_ENV_LEVEL)
 
 # Directories for saving outputs
@@ -1760,16 +1771,16 @@ def plot_rl_agent_strategy_example(history, condition_key_name, config_to_use, o
     if not history or not history.get('time') or len(history['time']) <=1: print(f"No data for RL plot {condition_key_name}"); return
     time_h = np.asarray(history['time']); min_len = len(time_h)
     data = {k: np.asarray(history.get(k, [np.nan]*min_len))[:min_len] for k in ['fcrit', 'g_lever', 'beta_lever', 'target_g', 'target_beta', 'target_fcrit', 'true_phase', 'safety_margin', 'rl_action_chosen']}
-    fig, axs = plt.subplots(5, 1, figsize=(15, 15), sharex=True); fig.suptitle(f"RL Agent Strategy Example - {condition_key_name} (Run 0, Env: {config_to_use.level})", fontsize=16)
+    fig, axs = plt.subplots(5, 1, figsize=(15, 15), sharex=True); fig.suptitle(f"RL Agent Strategy Example - {condition_key_name} (Run 0, Env: {config_to_use.level})", fontsize=32)
     axs[0].plot(time_h, data['fcrit'], label='Fcrit', c='g', lw=2); axs[0].plot(time_h, data['target_fcrit'], label='Target Fcrit (RL)', c='lightgreen', ls='--'); axs[0].axhline(config_to_use.fcrit_floor, c='r', ls=':', label='Fcrit Floor'); axs[0].set_ylabel('Fcrit'); axs[0].legend(loc='lower left'); axs[0].grid(True, ls=':', alpha=0.7); axs[0].set_ylim(bottom=0); add_true_phase_background(axs[0].twinx(), time_h, data['true_phase'])
     axs[1].plot(time_h, data['g_lever'], label='g_lever (Applied)', c='b'); axs[1].plot(time_h, data['target_g'], label='Target g_lever (RL)', c='cyan', ls='--'); axs[1].set_ylabel('g_lever'); axs[1].legend(loc='lower left'); axs[1].grid(True, ls=':', alpha=0.7); add_true_phase_background(axs[1].twinx(), time_h, data['true_phase'])
     axs[2].plot(time_h, data['beta_lever'], label='beta_lever (Applied)', c='purple'); axs[2].plot(time_h, data['target_beta'], label='Target beta_lever (RL)', c='violet', ls='--'); axs[2].set_ylabel('beta_lever'); axs[2].legend(loc='lower left'); axs[2].grid(True, ls=':', alpha=0.7); add_true_phase_background(axs[2].twinx(), time_h, data['true_phase'])
     axs[3].plot(time_h, data['safety_margin'], label='Safety Margin', c='orange'); axs[3].axhline(0, c='k', ls=':', alpha=0.5); axs[3].set_ylabel('Safety Margin'); axs[3].legend(loc='lower left'); axs[3].grid(True, ls=':', alpha=0.7); add_true_phase_background(axs[3].twinx(), time_h, data['true_phase'])
-    axs[4].step(time_h, data['rl_action_chosen'], label='RL Discrete Action', c='sienna', where='post'); axs[4].set_ylabel('RL Action'); axs[4].set_yticks(np.arange(len(PhoenixLoopRLEnv.ACTION_NAMES))); axs[4].set_yticklabels(PhoenixLoopRLEnv.ACTION_NAMES, rotation=30, ha='right', fontsize=8); axs[4].legend(loc='lower left'); axs[4].grid(True, ls=':', alpha=0.7); axs[4].set_ylim(-0.5, len(PhoenixLoopRLEnv.ACTION_NAMES) - 0.5); add_true_phase_background(axs[4].twinx(), time_h, data['true_phase'])
+    axs[4].step(time_h, data['rl_action_chosen'], label='RL Discrete Action', c='sienna', where='post'); axs[4].set_ylabel('RL Action'); axs[4].set_yticks(np.arange(len(PhoenixLoopRLEnv.ACTION_NAMES))); axs[4].set_yticklabels(PhoenixLoopRLEnv.ACTION_NAMES, rotation=30, ha='right', fontsize=16); axs[4].legend(loc='lower left'); axs[4].grid(True, ls=':', alpha=0.7); axs[4].set_ylim(-0.5, len(PhoenixLoopRLEnv.ACTION_NAMES) - 0.5); add_true_phase_background(axs[4].twinx(), time_h, data['true_phase'])
     axs[-1].set_xlabel('Time (steps)'); fig.tight_layout(rect=[0, 0, 1, 0.96])
     os.makedirs(output_dir, exist_ok=True)
     out_path = os.path.join(output_dir, f"rl_agent_strategy_example_{condition_key_name.replace(' ', '_')}_{config_to_use.level}.png")
-    plt.savefig(out_path)
+    plt.savefig(out_path, dpi=350)
     print(f"RL plot saved: {out_path}")
 
 def plot_average_fcrit_trajectories(results_dict, env_config, study_identifier=None, output_dir=RESULTS_DIR):
@@ -1869,7 +1880,7 @@ def plot_average_fcrit_trajectories(results_dict, env_config, study_identifier=N
         
     os.makedirs(output_dir, exist_ok=True)
     out_path = os.path.join(output_dir, save_filename)
-    plt.savefig(out_path)
+    plt.savefig(out_path, dpi=350)
     print(f"Saved Average Fcrit plot: {out_path}")
     plt.close(fig_avg)
 
@@ -1997,7 +2008,7 @@ def plot_diagnostic_trajectories(all_results, output_dir="results", study_identi
         filename = f"{base_filename}_{CURRENT_ENV_CONFIG.level}.png" # Fallback to current env level
         
     out_path = os.path.join(output_dir, filename)
-    plt.savefig(out_path)
+    plt.savefig(out_path, dpi=350)
     print(f"Saved diagnostic navigation plot to {out_path}")
     # plt.close(fig) # Close the figure after saving if generating many
 
@@ -2120,7 +2131,7 @@ if __name__ == "__main__":
                     config_to_use=CURRENT_ENV_CONFIG,
                     output_dir=RESULTS_DIR,
                 )
-        else: ax_curr.text(0.5, 0.5, "No/Insufficient data to plot", ha='center', va='center', fontsize=10, color='gray')
+        else: ax_curr.text(0.5, 0.5, "No/Insufficient data to plot", ha='center', va='center', fontsize=20, color='gray')
     
     
     
@@ -2216,7 +2227,7 @@ if __name__ == "__main__":
     ax_avg.set_ylim(bottom=0, top=CURRENT_ENV_CONFIG.fcrit_initial*1.1) # Use config
     fig_avg.tight_layout()
     out_path_avg = os.path.join(RESULTS_DIR, f"fcrit_dynamics_average_trajectories_incl_rl_{CURRENT_ENV_CONFIG.level}.png")
-    plt.savefig(out_path_avg)
+    plt.savefig(out_path_avg, dpi=350)
     print(f"Saved: {out_path_avg}")
 
     plot_diagnostic_trajectories(all_results, output_dir=RESULTS_DIR, study_identifier=CURRENT_ENV_CONFIG.level)

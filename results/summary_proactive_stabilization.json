@@ -1,16 +1,16 @@
 {
   "meta": {
-    "env_level": "default",
+    "env_level": "easy_debug",
     "sim_steps": 600,
     "rl_training_timesteps": 500000,
-    "code_commit": "0e69119",
+    "code_commit": "a035bcf",
     "ml_classifier": {
       "macro_F1": 0.82,
       "overall_acc": 0.85
     }
   },
   "conditions": {
-    "RL_default": {
+    "RL_easy_debug": {
       "n_runs": 30,
       "collapse_rate": [
         1.0,
@@ -25,36 +25,36 @@
         0.0
       ],
       "avg_total_fcrit_injected": 0.0,
-      "avg_lever_cost": 5.714575290679932,
+      "avg_lever_cost": 5.6477532386779785,
       "phase_occupancy": [
         0.0,
-        0.034,
-        0.07,
-        0.811,
-        0.085
+        0.035,
+        0.067,
+        0.814,
+        0.084
       ],
-      "fcrit_auc": 58477.19140625,
-      "sm_auc": 465.5765075683594,
-      "sm_slope": -0.005683237502617497,
+      "fcrit_auc": 58494.92578125,
+      "sm_auc": 464.12982177734375,
+      "sm_slope": -0.003566787604065168,
       "diagnostics": {
         "SpeedIndex": [
-          0.05307018318485309,
-          0.13882436102278992,
-          1.0312881926695505
+          0.05225147871974921,
+          0.13694023612412554,
+          1.014075376590093
         ],
         "CoupleIndex": [
-          0.08309116199279748,
-          0.5614652415928575,
-          1.0161638816197713
+          0.07400932409832257,
+          0.5618812595407595,
+          1.015775215625763
         ],
         "rhoE": [
-          0.7697424769155923,
-          1.5628727995325187,
-          8.680709934234619
+          0.715239085577202,
+          1.4409032380201912,
+          8.02439613342285
         ]
       },
-      "rl_episode_return_mean": -513.2371812745807,
-      "rl_steps_in_P4_mean": 50.233333333333334
+      "rl_episode_return_mean": -501.74047205019997,
+      "rl_steps_in_P4_mean": 49.4
     }
   },
   "data_uri": "results/curves.parquet",

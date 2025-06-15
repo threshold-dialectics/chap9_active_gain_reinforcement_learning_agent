@@ -5,6 +5,17 @@ from scipy.signal import savgol_filter
 from scipy.stats import pearsonr
 from collections import deque
 import matplotlib.pyplot as plt
+
+# Set consistent, slightly larger font sizes for readability
+plt.rcParams.update({
+    'font.size': 16,
+    'axes.titlesize': 16,
+    'axes.labelsize': 16,
+    'xtick.labelsize': 16,
+    'ytick.labelsize': 16,
+    'legend.fontsize': 16,
+    'figure.titlesize': 16,
+})
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
